@@ -1,2 +1,7 @@
 postgres-data/
 .idea
+__pycache__/
+*.py[cod]
+.pytest_cache/
+app/api/__pycache__
+app/models/__pycache__

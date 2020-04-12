@@ -25,8 +25,14 @@ class User(db.Model):
         return f"User {self.first_name} {self.last_name} (user id {self.user_id}) associated with company {self.company_id} and group {self.group_id}"
 
     @staticmethod
-    def get(session):
-        return session.query(User).filter_by(active=True).all()
+    def get(session, user_id=None):
+        return session.query(User).all() if user_id is None else session.query(
+            User).filter_by(user_id=user_id).first()
+    @staticmethod
+    def add(session, new_user):
+        session.add(new_user)
+        session.commit()
+        return User.get(session, new_user.user_id)
     @property
     def serialize(self):
         return {
