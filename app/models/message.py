@@ -19,7 +19,7 @@ class Message(db.Model):
 
     message_id = Column(Integer, primary_key=True, autoincrement=True)
     channel_type = Column(Enum(ChannelType), nullable=False)
-    message = Column(Text, nullable=False)
+    message_template = Column(Text, nullable=False)
     group_id = Column(Integer, nullable=False)
     company_id = Column(Integer, nullable=False)
     created_ts = Column(TIMESTAMP, nullable=False, default=dt.now())
@@ -46,7 +46,7 @@ class Message(db.Model):
             Message).filter_by(message_id=updated_message.message_id).first()
         if current_message:
             current_message.channel_type = updated_message.channel_type
-            current_message.message = updated_message.message
+            current_message.message_template = updated_message.message_template
             current_message.group_id = updated_message.group_id
             current_message.company_id = updated_message.company_id
             current_message.updated_ts = dt.now()
@@ -58,7 +58,7 @@ class Message(db.Model):
         return {
             "messageId": self.message_id,
             "channelType": self.channel_type.name,
-            "message": self.message,
+            "message": self.message_template,
             "groupId": self.group_id,
             "companyId": self.company_id,
             "createdTimestamp": self.created_ts,

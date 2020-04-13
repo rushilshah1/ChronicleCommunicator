@@ -19,7 +19,7 @@ def get_messages(message_id=None):
 def create_message():
     payload = request.get_json()
     new_message = Message(channel_type=payload['channelType'],
-                          message=payload['message'],
+                          message_template=payload['message'],
                           group_id=payload['groupId'],
                           company_id=payload['companyId']
                           )
@@ -32,7 +32,7 @@ def update_message():
     updated_message = Message(
         message_id = payload['messageId'],
         channel_type=payload['channelType'],
-        message=payload['message'],
+        message_template=payload['message'],
         group_id=payload['groupId'],
         company_id=payload['companyId'],
         active= payload['active']

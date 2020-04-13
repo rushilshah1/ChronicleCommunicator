@@ -3,19 +3,23 @@ FROM python:3.7.0-alpine
 
 WORKDIR /usr/src/app
 
+RUN ls -la
 RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev
 
 # install dependencies
-RUN pip install --upgrade pip
-COPY ./requirements.txt /usr/src/app/requirements.txt
+
+#COPY ./requirements.txt /usr/src/app/requirements.txt
 RUN export LDFLAGS="-L/usr/local/opt/openssl/lib"
-RUN pip install -r requirements.txt
+
 
 # copy project
-COPY . /usr/src/app/
-
+COPY . .
+RUN ls -la
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 EXPOSE 5000
+#ENV DB_HOST=postgres
+RUN ls -la
 
-RUN ls -la app/
-
-ENTRYPOINT ["./docker-entrypoint.sh"]
+CMD [ "./docker-entrypoint.sh" ]
+#CMD [ "wsgi.py" ]

@@ -3,3 +3,4 @@ postgres-data/
 __pycache__/
 *.py[cod]
 .pyc
+env.sh
