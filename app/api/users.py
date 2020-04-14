@@ -4,7 +4,6 @@ from app.models.user import User
 from app.api import api
 
 
-
 @api.route("/users", methods=["GET"])
 @api.route("/users/<user_id>", methods=["GET"])
 def get_users(user_id=None):
@@ -23,9 +22,8 @@ def create_user():
                     last_name=payload['lastName'],
                     email=payload['email'],
                     phone=payload['phone'],
+                    group_id=payload['groupId'],
                     company_id=payload['companyId'],
                     account_id=payload['accountId'])
-    created_user = User.add(db.session,new_user)
+    created_user = User.add(db.session, new_user)
     return jsonify(created_user.serialize)
-
-

@@ -3,7 +3,6 @@ class Config:
     TESTING = True
     DEBUG = True
     # Database
-    print(os.environ.get("DB_HOST", "0.0.0.0"))
     SQLALCHEMY_DATABASE_URI = "postgresql://{}:{}@{}:5432/{}".format(
         os.environ.get("DB_USERNAME", "postgres"),
         os.environ.get("DB_PASSWORD", ""),

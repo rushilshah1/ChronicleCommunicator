@@ -23,11 +23,13 @@ class Group(db.Model):
     def get(session, group_id=None):
         return session.query(Group).all() if group_id is None else session.query(
             Group).filter_by(group_id=group_id).first()
+
     @staticmethod
     def add(session, new_group):
         session.add(new_group)
         session.commit()
         return Group.get(session, new_group.group_id)
+
     @property
     def serialize(self):
         return {

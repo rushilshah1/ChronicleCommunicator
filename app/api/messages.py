@@ -26,16 +26,17 @@ def create_message():
     created_message = Message.add(db.session, new_message)
     return jsonify(created_message.serialize)
 
+
 @api.route("/messages", methods=["PUT"])
 def update_message():
     payload = request.get_json()
     updated_message = Message(
-        message_id = payload['messageId'],
+        message_id=payload['messageId'],
         channel_type=payload['channelType'],
         message_template=payload['message'],
         group_id=payload['groupId'],
         company_id=payload['companyId'],
-        active= payload['active']
+        active=payload['active']
     )
-    updated_message = Message.update(db.session,updated_message)
+    updated_message = Message.update(db.session, updated_message)
     return jsonify(updated_message.serialize)

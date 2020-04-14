@@ -6,16 +6,15 @@ from app.models.message import Message
 from app.models.user import User
 import smtplib, ssl
 import logging
-logging.basicConfig(level=logging.INFO)
 
+logging.basicConfig(level=logging.INFO)
 
 @api.route("/communication", methods=["POST"])
 def send_communication():
     """
-    Payload dictates the communication the customer wants to send
+    This POST endpoint is used to trigger a communication.
     At a minimum, requires companyId, groupId, messageId, channelType.
-    Just for a POC this will only support emails for a groupId. It will populate the message with two variables (user name and account number)
-    :account_id, :first_name
+    Just for a POC this will only support emails for a groupId. It will populate the message with two variables (first name and account id)
     """
     payload = request.get_json()
     company_id = payload.get('companyId', None)
@@ -36,7 +35,6 @@ def send_communication():
 
     logging.info(f"{len(recipients)} recipients of desired communication")
     email_statuses = list(map(lambda receipient_data: populate_message_template(receipient_data), recipients))
-    logging.info(f"email statuses: {email_statuses}")
     if len(email_statuses) == 0:
         return jsonify("There are no emails to send")
     elif all(email_statuses):
@@ -46,6 +44,11 @@ def send_communication():
 
 
 def populate_message_template(communication_data):
+    """
+    Unpacks the tuple containing message and user info, populates predefined message template with user account_id and first_name, and sends email
+    :param communication_data: tuple
+    :return: status of sent email
+    """
     message = communication_data[0]
     user = communication_data[1]
     email_address = user.email
@@ -55,6 +58,13 @@ def populate_message_template(communication_data):
 
 
 def send_email(receiver_email, message):
+    """
+    Sends email to specified receipient email with sepecified message
+    * Sender_email and sender_password must be set as env variables for this to work correctly *
+    :param receiver_email: str
+    :param message: str
+    :return:
+    """
     try:
         port = 465
         smtp_server = "smtp.gmail.com"
@@ -73,4 +83,3 @@ def send_email(receiver_email, message):
         return False
     logging.info(f"Email successfully sent to {receiver_email}")
     return True
-

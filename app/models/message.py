@@ -8,10 +8,10 @@ Base = declarative_base(metadata=MetaData(schema="chronicle"))
 
 
 class ChannelType(enum.Enum):
-    SMS = "sms"
-    EMAIL = "email"
-    APP = "app"
-    PUSH = "push"
+    SMS = "SMS"
+    EMAIL = "EMAIL"
+    APP = "APP"
+    PUSH = "PUSH"
 
 
 class Message(db.Model):
@@ -53,6 +53,7 @@ class Message(db.Model):
             current_message.active = updated_message.active
         session.commit()
         return current_message
+
     @property
     def serialize(self):
         return {
