@@ -1,13 +1,16 @@
 import os
+import smtplib, ssl
+import logging
 from app.api import api
 from flask import request, jsonify
 from app import db
 from app.models.message import Message
 from app.models.user import User
-import smtplib, ssl
-import logging
+from app.models.message import ChannelType
+
 
 logging.basicConfig(level=logging.INFO)
+
 
 @api.route("/communication", methods=["POST"])
 def send_communication():
@@ -25,13 +28,13 @@ def send_communication():
         return jsonify("Missing required field in request in order to send a communication")
 
     recipients = db.session.query(Message, User) \
+        .join(User, Message.group_id == User.group_id) \
         .filter(Message.company_id == company_id) \
         .filter(Message.group_id == group_id) \
         .filter(Message.message_id == message_id) \
         .filter(Message.active == True) \
         .filter(User.active == True) \
-        .filter(Message.channel_type == 'EMAIL') \
-        .filter(Message.group_id == User.group_id).all()
+        .filter(Message.channel_type == ChannelType.EMAIL).all()
 
     logging.info(f"{len(recipients)} recipients of desired communication")
     email_statuses = list(map(lambda receipient_data: populate_message_template(receipient_data), recipients))

@@ -18,12 +18,13 @@ def get_users(user_id=None):
 @api.route("/users", methods=["POST"])
 def create_user():
     payload = request.get_json()
-    new_user = User(first_name=payload["firstName"],
-                    last_name=payload['lastName'],
-                    email=payload['email'],
-                    phone=payload['phone'],
-                    group_id=payload['groupId'],
-                    company_id=payload['companyId'],
-                    account_id=payload['accountId'])
+    new_user = User(first_name=payload.get("firstName", None),
+                    last_name=payload.get('lastName', None),
+                    email=payload.get('email', None),
+                    phone=payload.get('phone', None),
+                    group_id=payload.get('groupId', None),
+                    company_id=payload.get('companyId', None),
+                    account_id=payload.get('accountId', None))
+    #TODO: Add validation of request before hitting the database
     created_user = User.add(db.session, new_user)
     return jsonify(created_user.serialize)

@@ -18,7 +18,8 @@ def get_groups(group_id=None):
 @api.route("/groups", methods=["POST"])
 def create_group():
     payload = request.get_json()
-    new_group = Group(description=payload['description'],
-                      company_id=payload['companyId'])
+    new_group = Group(description=payload.get('description',None),
+                      company_id=payload.get('companyId',None))
+    #TODO: Add validation of request before hitting the database
     created_group = Group.add(db.session, new_group)
     return jsonify(created_group.serialize)

@@ -1,8 +1,8 @@
 # Chronicle Communication Platform
 
 ## System Architecture
-[Architecture diagram](https://drive.google.com/file/d/1XqRkv4ltWBj-5-_mxwlPVSHzXbB6aaFq/view?usp=sharing)
-
+[Architecture diagram](https://drive.google.com/file/d/1XqRkv4ltWBj-5-_mxwlPVSHzXbB6aaFq/view?usp=sharing) \
+Note: The diagram is a high level breakdown of services, but does not include detail on dependencies (i.e. Databases), messaging brokers (i.e. Kafka), and infrastructure (i.e Server, Lambda, etc)
 ## Running Locally
 1. If you would like to test the communication feature to send an email, fill in `sender_email` and `sender_password`
 environment variables in `docker-compose.yml`.

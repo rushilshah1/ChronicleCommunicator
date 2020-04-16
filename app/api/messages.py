@@ -18,11 +18,12 @@ def get_messages(message_id=None):
 @api.route("/messages", methods=["POST"])
 def create_message():
     payload = request.get_json()
-    new_message = Message(channel_type=payload['channelType'],
-                          message_template=payload['message'],
-                          group_id=payload['groupId'],
-                          company_id=payload['companyId']
+    new_message = Message(channel_type=payload.get('channelType', None),
+                          message_template=payload.get('message', None),
+                          group_id=payload.get('groupId', None),
+                          company_id=payload.get('companyId', None)
                           )
+    #TODO: Add validation of request before hitting the database
     created_message = Message.add(db.session, new_message)
     return jsonify(created_message.serialize)
 
@@ -31,12 +32,13 @@ def create_message():
 def update_message():
     payload = request.get_json()
     updated_message = Message(
-        message_id=payload['messageId'],
-        channel_type=payload['channelType'],
-        message_template=payload['message'],
-        group_id=payload['groupId'],
-        company_id=payload['companyId'],
-        active=payload['active']
+        message_id=payload.get('messageId', None),
+        channel_type=payload.get('channelType', None),
+        message_template=payload.get('message', None),
+        group_id=payload.get('groupId', None),
+        company_id=payload.get('companyId', None),
+        active=payload.get('active', True)
     )
+    #TODO: Add validation of request before hitting the database
     updated_message = Message.update(db.session, updated_message)
     return jsonify(updated_message.serialize)

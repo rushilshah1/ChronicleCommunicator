@@ -24,6 +24,7 @@ CREATE TABLE if not exists chronicle."group" (
 	active bool NOT NULL,
 	CONSTRAINT group_pkey PRIMARY KEY (group_id)
 );
+drop type if exists channeltype;
 CREATE TYPE channeltype AS ENUM('SMS', 'EMAIL', 'APP', 'PUSH');
 CREATE TABLE if not exists chronicle.message (
 	message_id serial NOT NULL,
@@ -54,7 +55,7 @@ This is a test email to remind you your minimum payment is due for :account_id b
 
 The link in the email can help measure engagement of the message (If I clicked and went to the site I can capture the activity from this message)
 
-- Chronicle', 1, 1, '2020-04-14 00:56:25.549', '2020-04-14 01:09:47.390', true);
+- Chronicle', 1, 1, current_timestamp, current_timestamp, true);
 
 
 -- Skipping adding foreign keys to allow more flexibilty to test MVP (ex add user with groupId before groupId exists)
